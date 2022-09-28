@@ -198,7 +198,7 @@ void YetAnotherMagicLampEffect::slotWindowMinimized(KWin::EffectWindow* w)
         return;
     }
 
-    const QRect iconRect = w->iconGeometry();
+    const QRect iconRect = w->iconGeometry().toRect();
     if (!iconRect.isValid()) {
         return;
     }
@@ -220,7 +220,7 @@ void YetAnotherMagicLampEffect::slotWindowUnminimized(KWin::EffectWindow* w)
         return;
     }
 
-    const QRect iconRect = w->iconGeometry();
+    const QRect iconRect = w->iconGeometry().toRect();
     if (!iconRect.isValid()) {
         return;
     }

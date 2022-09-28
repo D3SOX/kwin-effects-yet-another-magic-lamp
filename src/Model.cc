@@ -53,7 +53,7 @@ static Direction realizeDirection(const KWin::EffectWindow* window)
     QPoint screenDelta;
 
     if (dock) {
-        const QRect screenRect = KWin::effects->clientArea(KWin::ScreenArea, dock);
+        const QRect screenRect = KWin::effects->clientArea(KWin::ScreenArea, dock).toRect();
 
         if (dock->width() >= dock->height()) {
             if (dock->y() == screenRect.y())
@@ -70,12 +70,12 @@ static Direction realizeDirection(const KWin::EffectWindow* window)
         screenDelta += screenRect.center();
     } else {
         // Perhaps the dock is hidden, deduce direction to the icon.
-        const QRect iconRect = window->iconGeometry();
+        const QRect iconRect = window->iconGeometry().toRect();
 
         const KWin::EffectScreen* screen = KWin::effects->screenAt(iconRect.center());
         const int desktop = KWin::effects->currentDesktop();
 
-        const QRect screenRect = KWin::effects->clientArea(KWin::ScreenArea, screen, desktop);
+        const QRect screenRect = KWin::effects->clientArea(KWin::ScreenArea, screen, desktop).toRect();
         const QRect constrainedRect = screenRect.intersected(iconRect);
 
         if (constrainedRect.left() == screenRect.left())
@@ -90,7 +90,7 @@ static Direction realizeDirection(const KWin::EffectWindow* window)
         screenDelta += screenRect.center();
     }
 
-    const QRect screenRect = KWin::effects->clientArea(KWin::ScreenArea, window);
+    const QRect screenRect = KWin::effects->clientArea(KWin::ScreenArea, window).toRect();
     screenDelta -= screenRect.center();
 
     // Dock and window are on the same screen, no further adjustments are required.
@@ -302,8 +302,8 @@ static void transformQuadsLeft(
     // a better approach is to have a transform method that operates on each
     // individual vertex, e.g. void Model::transform(WindowVertex& vertex).
 
-    const QRect iconRect = window->iconGeometry();
-    const QRect windowRect = window->frameGeometry();
+    const QRect iconRect = window->iconGeometry().toRect();
+    const QRect windowRect = window->frameGeometry().toRect();
 
     const qreal distance = windowRect.right() - iconRect.right() + params.bumpDistance;
 
@@ -345,8 +345,8 @@ static void transformQuadsTop(
     // a better approach is to have a transform method that operates on each
     // individual vertex, e.g. void Model::transform(WindowVertex& vertex).
 
-    const QRect iconRect = window->iconGeometry();
-    const QRect windowRect = window->frameGeometry();
+    const QRect iconRect = window->iconGeometry().toRect();
+    const QRect windowRect = window->frameGeometry().toRect();
 
     const qreal distance = windowRect.bottom() - iconRect.bottom() + params.bumpDistance;
 
@@ -388,8 +388,8 @@ static void transformQuadsRight(
     // a better approach is to have a transform method that operates on each
     // individual vertex, e.g. void Model::transform(WindowVertex& vertex).
 
-    const QRect iconRect = window->iconGeometry();
-    const QRect windowRect = window->frameGeometry();
+    const QRect iconRect = window->iconGeometry().toRect();
+    const QRect windowRect = window->frameGeometry().toRect();
 
     const qreal distance = iconRect.left() - windowRect.left() + params.bumpDistance;
 
@@ -431,8 +431,8 @@ static void transformQuadsBottom(
     // a better approach is to have a transform method that operates on each
     // individual vertex, e.g. void Model::transform(WindowVertex& vertex).
 
-    const QRect iconRect = window->iconGeometry();
-    const QRect windowRect = window->frameGeometry();
+    const QRect iconRect = window->iconGeometry().toRect();
+    const QRect windowRect = window->frameGeometry().toRect();
 
     const qreal distance = iconRect.top() - windowRect.top() + params.bumpDistance;
 
@@ -588,8 +588,8 @@ bool Model::needsClip() const
 
 QRegion Model::clipRegion() const
 {
-    const QRect iconRect = m_window->iconGeometry();
-    QRect clipRect = m_window->expandedGeometry();
+    const QRect iconRect = m_window->iconGeometry().toRect();
+    QRect clipRect = m_window->expandedGeometry().toRect();
 
     switch (m_direction) {
     case Direction::Top:
@@ -629,8 +629,8 @@ QRegion Model::clipRegion() const
 
 int Model::computeBumpDistance() const
 {
-    const QRect windowRect = m_window->frameGeometry();
-    const QRect iconRect = m_window->iconGeometry();
+    const QRect windowRect = m_window->frameGeometry().toRect();
+    const QRect iconRect = m_window->iconGeometry().toRect();
 
     int bumpDistance = 0;
     switch (m_direction) {
@@ -661,8 +661,8 @@ int Model::computeBumpDistance() const
 
 qreal Model::computeShapeFactor() const
 {
-    const QRect windowRect = m_window->frameGeometry();
-    const QRect iconRect = m_window->iconGeometry();
+    const QRect windowRect = m_window->frameGeometry().toRect();
+    const QRect iconRect = m_window->iconGeometry().toRect();
 
     int movingExtent = 0;
     int distanceToIcon = 0;
