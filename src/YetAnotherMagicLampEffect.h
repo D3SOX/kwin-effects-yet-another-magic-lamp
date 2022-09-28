@@ -22,14 +22,14 @@
 #include "common.h"
 
 // kwineffects
-#include <kwindeformeffect.h>
+#include <kwinoffscreeneffect.h>
 
 struct AnimationData {
     Model model;
     KWin::EffectWindowVisibleRef visibleRef;
 };
 
-class YetAnotherMagicLampEffect : public KWin::DeformEffect {
+class YetAnotherMagicLampEffect : public KWin::OffscreenEffect {
     Q_OBJECT
 
 public:
@@ -49,7 +49,7 @@ public:
     static bool supported();
 
 protected:
-    void deform(KWin::EffectWindow* window, int mask, KWin::WindowPaintData& data, KWin::WindowQuadList& quads) override;
+    void apply(KWin::EffectWindow* window, int mask, KWin::WindowPaintData& data, KWin::WindowQuadList& quads) override;
 
 private Q_SLOTS:
     void slotWindowMinimized(KWin::EffectWindow* w);
