@@ -20,6 +20,7 @@
 using namespace std::chrono_literals;
 // Own
 #include "Model.h"
+#include "core/renderviewport.h"
 #include "effect/effecthandler.h"
 #include "scene/windowitem.h"
 
@@ -174,11 +175,11 @@ bool YetAnotherMagicLampEffect::paintWindow(const KWin::RenderTarget& renderTarg
     auto it = m_animations.constFind(w);
     if (it != m_animations.constEnd()) {
         if (it->model.needsClip()) {
-            clip = it->model.clipRegion();
+            clip = viewport.mapToDeviceCoordinatesAligned(it->model.clipRegion());
         }
     }
 
-    return KWin::effects->paintWindow(renderTarget, viewport, w, mask, deviceRegion, data);
+    return KWin::effects->paintWindow(renderTarget, viewport, w, mask, clip, data);
 }
 
 void YetAnotherMagicLampEffect::apply(KWin::EffectWindow* window, int mask, KWin::WindowPaintData& data, KWin::WindowQuadList& quads)
