@@ -124,10 +124,10 @@ void YetAnotherMagicLampEffect::reconfigure(ReconfigureFlags flags)
     }
     m_modelParameters.shapeCurve = curve;
 
-    const std::chrono::milliseconds baseDuration = std::chrono::milliseconds(animationTime<YetAnotherMagicLampConfig>(250ms));
-    m_modelParameters.squashDuration = std::chrono::milliseconds(baseDuration);
+    const std::chrono::milliseconds baseDuration = animationTime<YetAnotherMagicLampConfig>(250ms);
+    m_modelParameters.squashDuration = baseDuration;
     m_modelParameters.stretchDuration = std::chrono::milliseconds(qMax(qRound(baseDuration.count() * 0.7), 1));
-    m_modelParameters.bumpDuration = std::chrono::milliseconds(baseDuration);
+    m_modelParameters.bumpDuration = baseDuration;
     m_modelParameters.shapeFactor = YetAnotherMagicLampConfig::initialShapeFactor();
     m_modelParameters.bumpDistance = YetAnotherMagicLampConfig::maxBumpDistance();
 
@@ -211,7 +211,7 @@ void YetAnotherMagicLampEffect::slotWindowMinimized(KWin::EffectWindow* w)
         return;
     }
 
-    const QRectF iconRect = w->iconGeometry();
+    const KWin::RectF iconRect = w->iconGeometry();
     if (!iconRect.isValid()) {
         return;
     }
@@ -233,7 +233,7 @@ void YetAnotherMagicLampEffect::slotWindowUnminimized(KWin::EffectWindow* w)
         return;
     }
 
-    const QRectF iconRect = w->iconGeometry();
+    const KWin::RectF iconRect = w->iconGeometry();
     if (!iconRect.isValid()) {
         return;
     }
