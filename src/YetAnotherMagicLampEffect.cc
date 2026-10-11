@@ -168,7 +168,8 @@ void YetAnotherMagicLampEffect::postPaintScreen()
     KWin::effects->postPaintScreen();
 }
 
-void YetAnotherMagicLampEffect::paintWindow(const KWin::RenderTarget& renderTarget, const KWin::RenderViewport& viewport, KWin::EffectWindow* w, int mask, const KWin::Region& deviceRegion, KWin::WindowPaintData& data)
+auto YetAnotherMagicLampEffect::paintWindow(const KWin::RenderTarget& renderTarget, const KWin::RenderViewport& viewport, KWin::EffectWindow* w, int mask, const KWin::Region& deviceRegion, KWin::WindowPaintData& data)
+    -> decltype(KWin::effects->paintWindow(renderTarget, viewport, w, mask, deviceRegion, data))
 {
     KWin::Region clip = deviceRegion;
 
@@ -179,7 +180,7 @@ void YetAnotherMagicLampEffect::paintWindow(const KWin::RenderTarget& renderTarg
         }
     }
 
-    KWin::effects->paintWindow(renderTarget, viewport, w, mask, clip, data);
+    return KWin::effects->paintWindow(renderTarget, viewport, w, mask, clip, data);
 }
 
 void YetAnotherMagicLampEffect::apply(KWin::EffectWindow* window, int mask, KWin::WindowPaintData& data, KWin::WindowQuadList& quads)
